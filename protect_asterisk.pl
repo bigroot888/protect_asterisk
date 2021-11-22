@@ -169,7 +169,7 @@ if (! -f $file_db) {
 
 #fail2ban-client set asterisk banip 000.000.000.000
 
-my @sip_num = SipConf::ReadFile;
+my @sip_num = SipConf::ReadFile();
 
 &logfile(Dumper @sip_num);
 
