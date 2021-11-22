@@ -1,4 +1,4 @@
-package SipReadFile;
+package SipConf;
 use strict;
 use warnings;
 
