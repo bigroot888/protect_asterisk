@@ -3,17 +3,8 @@
 use warnings;
 use strict;
 
-open F, '<' ,'/etc/asterisk/sip.conf';
-my @num;
-while(<F>) {
-    my $row = $_;
-    next if $row =~ /^\;/;
-    next if $row =~ /^\[general\]/;
-    next if $row =~ /\(\!\)/;
-    if ($row =~ /^\[[0-9]*|[a-zA-Z]*\]/) {
-	push(@num, substr($row,1,index($row,']')-1));
-    }
-}
+use sipconf;
 
-print $num[1];
-close F;
+my @sip_num = SipConf::ReadFile();
+
+print $sip_num[2];

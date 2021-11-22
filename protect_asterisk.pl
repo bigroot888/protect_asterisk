@@ -22,6 +22,7 @@ my $block_type = "REJECT --reject-with icmp-port-unreachable";
 my $name_tab = "asterisk";
 
 my $db;
+my @sip_num;
 
 Proc::Daemon::Init();
 
@@ -109,6 +110,18 @@ sub getCount() {
     return &qrySelect($db, "select count from users where ip='".$ip."'");
 }
 
+sub checkSip() {
+    my ($sipnum) = @_;
+    foreach my $num (@sip_num) {
+	if ($num eq $sipnum) {
+	    return 1; 
+	}
+	else {
+	    return 0;
+	}
+    }
+}
+
 sub addIpDb() {
     my ($db, $ip) = @_;
     my $ip_exists = &checkIp($db,$ip);
@@ -169,7 +182,7 @@ if (! -f $file_db) {
 
 #fail2ban-client set asterisk banip 000.000.000.000
 
-my @sip_num = SipConf::ReadFile();
+@sip_num = SipConf::ReadFile();
 
 &logfile(Dumper @sip_num);
 
@@ -186,9 +199,7 @@ while (1) {
             $new_callid=$ast[2];
             my $curr_num=$ast[1];
 
-            next if $curr_num eq '89215405817';
-            next if $curr_num eq '888';
-            next if $curr_num eq '889';
+            next if &checkSip($curr_num) == 1;
 
             next if $new_callid eq $old_callid;
 
