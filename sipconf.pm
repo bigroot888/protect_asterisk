@@ -4,6 +4,8 @@ use warnings;
 
 use Exporter qw(import);
 
+our @EXPORT_OK = qw(ReadFile);
+
 sub ReadFile() {
     open F, '<' ,'/etc/asterisk/sip.conf';
     my @num;

@@ -15,5 +15,5 @@ while(<F>) {
     }
 }
 
-print @num;
+print $num[1];
 close F;
