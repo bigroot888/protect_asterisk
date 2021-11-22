@@ -169,6 +169,8 @@ if (! -f $file_db) {
 
 #fail2ban-client set asterisk banip 000.000.000.000
 
+my @sip_num;
+
 while (1) {
     my @AST=`/usr/sbin/asterisk -rx 'sip show channels' | grep INVITE`;
 
