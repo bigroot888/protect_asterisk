@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# chkconfig: 2345 95 20
+# description: Protect Asterisk
+# processname: protect_asterisk
+
+
+. /etc/rc.d/init.d/functions
+
+DAEMON=/root/protect_asterisk/protect_asterisk.pl
+
+PID=/var/run/protect_asterisk.pl.pid
+
+start() {
+    if ! [ -f $PID  ]; then
+	$DAEMON
+    fi
+    echo
+    return 1
+}
+
+stop() {
+    if [ -f $PID ]; then
+	/bin/kill -QUIT `cat $PID`
+    fi
+    echo
+    return 1
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  restart)
+	restart
+	;;
+  *)
+     echo "Использование: /etc/init.d/protect_asterisk {start|stop}"
+     exit 1
+     ;;
+esac
+exit 0
